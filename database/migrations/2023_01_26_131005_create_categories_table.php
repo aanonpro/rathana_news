@@ -16,12 +16,14 @@ return new class extends Migration
         Schema::create('categories', function (Blueprint $table) {
             $table->id();
             $table->string('name')->nullable();
+            $table->string('slug')->nullable();
             $table->string('description')->nullable();
             $table->string('image')->nullable();
-            $table->tinyInteger('status')->default(0);
-            $table->tinyInteger('trash')->default(0);
+            // $table->integer('order')->index()->default(0)->unique();
+            $table->string('status',1);
+            $table->string('trash',1)->default(0);
             $table->integer('created_by');
-            $table->integer('updated_by');
+            $table->integer('updated_by')->default(0);
 
             $table->timestamps();
         });

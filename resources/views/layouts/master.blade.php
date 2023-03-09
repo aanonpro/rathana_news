@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
 
@@ -20,6 +20,9 @@
     <link href="{{url('')}}/admin/css/sb-admin.css" rel="stylesheet">
     {{-- datatale  --}}
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.1/css/jquery.dataTables.min.css">
+    <!-- include summernote css/js-->
+    <link href="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.4/summernote.css" rel="stylesheet">
+  
 
 
 </head>
@@ -65,6 +68,10 @@
 
     {{-- datatable  --}}
     <script src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>
+{{-- script summernote  --}}
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.4/summernote.js"></script>
+{{-- sweet alert --}}
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <script>
        $(document).ready( function () {
@@ -72,6 +79,15 @@
         } );
     </script>
 
+    {{-- summernote  --}}
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('.summernote').summernote({            
+            height: 300,
+        });
+    });
+</script>
+@yield('script')
     
 </body>
 

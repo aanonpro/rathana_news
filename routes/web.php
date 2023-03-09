@@ -2,7 +2,8 @@
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\PostController;
+use App\Http\Controllers\Admin\CategoryController;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,12 +16,22 @@ use App\Http\Controllers\CategoryController;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+// Route::get('/', function () {
+//     return view('welcome');
+// });
 
 Auth::routes();
 
+//frontend routes
+Route::get('/', [App\Http\Controllers\FrontendController::class, 'index']);
+Route::get('topic/{category_slug}',[App\Http\Controllers\FrontendController::class, 'categoryPage']);
+Route::get('topic/{category_slug}/{post_slug}',[App\Http\Controllers\FrontendController::class, 'viewPost']);
+
+Route::get('share-social',[App\Http\Controllers\ShareButtonsController::class, 'share']);
+
+//contact us 
+Route::get('/about', [App\Http\Controllers\FrontendController::class, 'about']);
+Route::get('/contact', [App\Http\Controllers\FrontendController::class, 'contact']);
 
 // Route::get('/', function () {
 //     return redirect('/login');
@@ -38,5 +49,6 @@ Route::prefix('admin')->middleware(['auth','isAdmin'])->group(function (){
 
     Route::get('/dashboard', [App\Http\Controllers\Admin\DashboardController::class, 'index']);
     Route::resource('categories', CategoryController::class);
+    Route::resource('posts', PostController::class);
 
 });
