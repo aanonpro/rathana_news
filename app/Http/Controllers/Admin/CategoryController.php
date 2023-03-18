@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Models\Category;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
@@ -41,6 +42,7 @@ class CategoryController extends Controller
     {
         // dd($request->all());
         $input = $request->all();
+        // $input['uuid'] = Str::uuid()->toString();
         $input['created_by'] = Auth::user()->id;
 
         $request->validate([

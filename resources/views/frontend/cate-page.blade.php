@@ -129,7 +129,7 @@
             <div class="col-md-10 col-lg-4 p-b-80">
                 <div class="p-l-10 p-rl-0-sr991">							
                     <!-- Subscribe -->
-                    <div class="bg10 p-rl-35 p-t-28 p-b-35 m-b-50">
+                    {{-- <div class="bg10 p-rl-35 p-t-28 p-b-35 m-b-50">
                         <h5 class="f1-m-5 cl0 p-b-10">
                             Subscribe
                         </h5>
@@ -145,7 +145,7 @@
                                 <i class="fa fa-arrow-right"></i>
                             </button>
                         </form>
-                    </div>
+                    </div> --}}
 
                     <!-- Most Popular -->
                     <div class="p-b-23">

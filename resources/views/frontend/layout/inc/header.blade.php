@@ -199,7 +199,7 @@
                             <a href="{{url('')}}" class="{{ Request::is('/') ? 'active ':'' }}">Home</a>
                         </li>
                         @php
-                            $categories = App\Models\Category::where('status',1)->orderBy('created_at','ASC')->get();
+                            $categories = App\Models\Category::where('status',1)->orderBy('created_at','DESC')->get();
                         @endphp
                         @foreach ($categories as $item)
                             <li class="mega-menu-item  ">

@@ -56,6 +56,7 @@
 								$categories = App\Models\Category::where('status',1)->orderBy('created_at','ASC')->latest()->get();
 							@endphp
 							@foreach ($post_popular->take(3) as $item)
+							@if ($item->category->status == 1)
 								
 							<li class="flex-wr-sb-s p-b-20">
 								<a href="{{ url('topic/'.$item->category->slug.'/'.$item->slug)  }}" class="size-w-4 wrap-pic-w hov1 trans-03">
@@ -74,6 +75,7 @@
 									</span>
 								</div>
 							</li>
+							@endif
 							@endforeach
 						</ul>
 					</div>

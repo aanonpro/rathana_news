@@ -8,43 +8,37 @@ use Illuminate\Http\Request;
 
 class FrontendController extends Controller
 {   
-    public function index(){
-        // $category = Category::where('status', 1)->first();
-        // foreach ($categories as $category) {
-        //     if ($category->status= 1) {
-        //         $posts = Post::orderBy('created_at','DESC')->with(['categories'=>function($query){
-        //             return $query->where('status',1)->latest();
-        //         }])->where('status', 1)->get();
-        //     }
-        // }
+    public function index(Request $request){
+        // search with name and with name foreign keys
+        $rows= Post::query();
+        $cate= Category::query();
 
-        // $posts = Post::leftJoin('categories', function($join) {
-        //     $join->on('posts.category_id', '=', 'categories.id')
-        //     ->where('categories.status','=',1);
-        //   })
-         
-        //   ->first();
-        
+        if($request->search) {
+                          
+            $rows->where('name', 'like', '%' . $request->search . '%')
+                ->Orwhere('meta_title','like','%'.$request->search.'%')
+                ->Orwhere('meta_keyword','like','%'.$request->search.'%')
+                ->get();
+               
+                $cate->where('name', 'like', '%' . $request->search . '%')->get();
+           
+         }
 
-            $posts = Post::where('status',1)->orderBy('created_at','DESC')->latest()->get();
-            // $categories = Category::where('status',1)->with(['posts' =>function($q){
-            //     return $q->where('status',1)->latest()->get();
-            // }])->get();
-            // $posts = Post::where('status',1)->with(['category' => function($q){
-            //     return $q->where('status',1)->latest()->get();
-            // }])->orderBy('created_at','DESC')->latest()->get();
+        $rows->where('status',1)->orderBy('created_at','DESC')->get();
 
-            $posts_random = Post::where('status', 1)->orderBy('created_at','DESC')->inRandomOrder()->get();
-            $posts_random_bottom = Post::where('status', 1)->inRandomOrder()->limit(2)->get();
-            $post_popular = Post::orderBy('views','DESC')->where('status',1)->latest()->get();
-            $lastest_posts = Post::orderBy('id','DESC')->where('status',1)->latest()->get();
+        // $posts_random = Post::where('status', 1)->orderBy('created_at','DESC')->inRandomOrder()->get();
+        // $posts_random_bottom = Post::where('status', 1)->inRandomOrder()->limit(2)->get();
+        $post_popular = Post::orderBy('views','DESC')->where('status',1)->get();
+        $lastest_posts = $rows->orderBy('id','DESC')->where('status',1)->latest()->get();
+        $posts = $rows->latest()->get();
 
-            // each category in index page 
-            $categories = Category::where('status',1)->with(['posts' => function($query) {
-                return $query->latest()->get();
-            }])->where('status',1)->get(); 
+        // $cate->where('status', 1)->with('posts');
+        $cate->where('status',1)->with(['posts' => function($query) {
+            return $query->latest()->get();           
+        }])->where('status',1); 
+        $categories= $cate->latest()->get();
 
-            return view('frontend.index',compact('posts','posts_random','posts_random_bottom','post_popular','categories','lastest_posts'));
+        return view('frontend.index',compact('posts','post_popular','categories','lastest_posts'));
         
     }
 
@@ -57,14 +51,13 @@ class FrontendController extends Controller
             // $latest_posts = Post::where('status','0')->latest('created_at','DESC')->inRandomOrder()->get()->take(3);
             return view('frontend.cate-page', compact('categories','posts','post_popular'));
         }
-        // else{
-        //     return redirect('/');
-        // }
+        else{
+            return view('frontend.crash_page');
+        }
     }
 
     public function viewPost(string $category_slug, string $post_slug){
-        
-              
+                   
       
         $categories = Category::where('slug', $category_slug)->where('status','1')->first();
       
@@ -86,9 +79,9 @@ class FrontendController extends Controller
             ->pinterest();
             return view('frontend.dedail', compact('posts','categories','post_popular','lastest_posts','share'));
         }
-        // else{
-        //     return redirect('/');
-        // }
+        else{
+            return view('frontend.crash_page');
+        }
     }
 
 

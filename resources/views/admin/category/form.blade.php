@@ -50,8 +50,8 @@
                     <div class="form-group">
                         <label>Status</label>
                         <select class="form-control" name="status">
-                            <option  disabled selected>Select status</option>
-                            <option value="1" @if(isset($category)) {{ $category->status == 1 ? 'selected' : '' }} @endif >Active</option>
+                            {{-- <option  disabled selected>Select status</option> --}}
+                            <option value="1" selected @if(isset($category)) {{ $category->status == 1 ? 'selected' : '' }} @endif >Active</option>
                             <option value="0" @if(isset($category))  {{ $category->status == 0 ? 'selected' : '' }} @endif>Inactive</option>
                         </select>
                     </div>

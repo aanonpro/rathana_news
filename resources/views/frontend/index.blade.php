@@ -24,13 +24,14 @@
                 </span>
             </span> --}}
         </div>
-
+        <form action="{{route('frontend.index')}}" method="GET">
         <div class="pos-relative size-a-2 bo-1-rad-22 of-hidden bocl11 m-tb-6">
             <input class="f1-s-1 cl6 plh9 s-full p-l-25 p-r-45" type="text" name="search" placeholder="Search">
-            <button class="flex-c-c size-a-1 ab-t-r fs-20 cl2 hov-cl10 trans-03">
+            <button class="flex-c-c size-a-1 ab-t-r fs-20 cl2 hov-cl10 trans-03" type="submit">
                 <i class="zmdi zmdi-search"></i>
             </button>
         </div>
+    </form>
     </div>
 </div>
     
@@ -38,25 +39,34 @@
 <section class="bg0">
     <div class="container">
         <div class="row m-rl--1">
-            @foreach ($posts->take(6) as $index => $item)   
-            <div class="col-sm-6 col-lg-4 p-rl-1 p-b-2">
-                <div class="bg-img1 size-a-12 how1 pos-relative" style="background-image: url({{url('uploads/post/'.$item->image)}});">
-                    <a href="{{ url('topic/'.$item->category->slug.'/'.$item->slug)  }}" class="dis-block how1-child1 trans-03"></a>
+            {{-- @foreach ($categories as $category)  --}}
+            @if ($posts->count() > 0)
+                @foreach ($posts as $item)
+                    @if ($item->category->status == 1)
+                        
+                        <div class="col-sm-6 col-lg-4 p-rl-1 p-b-2">
+                            <div class="bg-img1 size-a-12 how1 pos-relative" style="background-image: url({{url('uploads/post/'.$item->image)}});">
+                                <a href="{{ url('topic/'.$item->category->slug.'/'.$item->slug)  }}" class="dis-block how1-child1 trans-03"></a>
 
-                    <div class="flex-col-e-s s-full p-rl-25 p-tb-11">
-                        <a href="{{ url('topic/'.$item->category->slug)  }}" class="dis-block how1-child2 f1-s-2 cl0 bo-all-1 bocl0 hov-btn1 trans-03 p-rl-5 p-t-2">
-                            {{$item->category->name}}
-                        </a>
+                                <div class="flex-col-e-s s-full p-rl-25 p-tb-11">
+                                    <a href="{{ url('topic/'.$item->category->slug)  }}" class="dis-block how1-child2 f1-s-2 cl0 bo-all-1 bocl0 hov-btn1 trans-03 p-rl-5 p-t-2">
+                                        {{$item->category->name}}
+                                    </a>
 
-                        <h3 class="how1-child2 m-t-10">
-                            <a href="{{ url('topic/'.$item->category->slug.'/'.$item->slug)  }}" class="f1-m-1 cl0 hov-cl10 trans-03">
-                                {{$item->short_detail}}
-                            </a>
-                        </h3>
-                    </div>
-                </div>
-            </div>
-            @endforeach
+                                    <h3 class="how1-child2 m-t-10">
+                                        <a href="{{ url('topic/'.$item->category->slug.'/'.$item->slug)  }}" class="f1-m-1 cl0 hov-cl10 trans-03">
+                                            {{$item->short_detail}}
+                                        </a>
+                                    </h3>
+                                </div>
+                            </div>
+                        </div>
+                    @endif  
+                @endforeach  
+            @else
+                <p>No posts found.</p>
+            @endif       
+            {{-- @endforeach --}}
 
             {{-- @foreach ($posts->take(1) as $index => $item)             
             @if ($index == 0)               
@@ -142,13 +152,12 @@
             <div class="col-md-10 col-lg-8">
                 <div class="p-b-20">
                     <!-- Entertainment -->
-                    @foreach ($categories as $category)
+                    @forelse ($categories as $category)
                                
                     <div class="tab01 p-b-20">
                         <div class="how2 how2-cl1 flex-sb-c m-r-10 m-r-0-sr991">
 							<h3 class="f1-m-2 cl12 tab01-title">                                  
-                                {{$category->name}}  
-                                                                                
+                                {{$category->name}}                                                                                  
                             </h3>
                             <!--  -->
                             <a href="{{url('topic/'.$category->slug)}}" class="tab01-link f1-s-1 cl9 hov-cl10 trans-03">
@@ -195,7 +204,7 @@
                                     @endforeach
                                     
                                     <div class="col-sm-6 p-r-25 p-r-15-sr991">
-                                        @foreach ($category->posts->take(3) as $index => $item)
+                                        @forelse ($category->posts->take(3) as $index => $item)
                                             @if($index ==0)
                                             @continue
                                             @endif
@@ -225,14 +234,22 @@
                                                 </span>
                                             </div>
                                         </div>
-                                        @endforeach
+                                        @empty
+                                        <div class="flex-wr-sb-s m-b-30">
+                                            This categories no post available
+                                        </div>
+                                        @endforelse
+                                        
                                     </div>
                                 </div>
                             </div>                         
                         </div>
                     </div>
-                    
-                    @endforeach                
+                    @empty
+                    <div class="tab01 p-b-20">
+                        Categories are developing
+                    </div>
+                    @endforelse           
 
                     <!-- Business -->
                     {{-- <div class="tab01 p-b-20">
@@ -524,7 +541,10 @@
                         </div>
 
                         <ul class="p-t-35">
+                        @if ($post_popular->count() > 0)
                             @foreach ($post_popular->take(5) as $key=> $item)
+                            @if ($item->category->status == 1)
+
                             <li class="flex-wr-sb-s p-b-22">
                                 <div class="size-a-8 flex-c-c borad-3 size-a-8 bg9 f1-m-4 cl0 m-b-6">
                                     {{++$key}}
@@ -534,8 +554,14 @@
                                     {{$item->name}}
                                 </a>
                             </li>
+                            @endif
                             @endforeach
+                        @else
+                        <li class="flex-wr-sb-s p-b-22">
+                            <p>No post found</p>
+                        </li>
                            
+                        @endif
                         </ul>
                     </div>
 
@@ -631,7 +657,10 @@
                 </div>
 
                 <div class="row p-t-35">
+                    @if ($lastest_posts->count()>0)
+                        
                     @foreach ($lastest_posts->take(6) as $item)
+                    @if ($item->category->status == 1)
                         
                     <div class="col-sm-6 p-r-25 p-r-15-sr991">
                         <!-- Item latest -->	
@@ -663,7 +692,16 @@
                             </div>
                         </div>
                     </div>
+                    @endif
                     @endforeach
+                    @else
+                    <div class="col-sm-6 p-r-25 p-r-15-sr991">
+                        <!-- Item latest -->	
+                        <div class="m-b-45">
+                            <p>No posts found.</p>
+                        </div>
+                    </div>
+                    @endif
                 </div>
             </div>
 
@@ -711,7 +749,7 @@
                     </div>
                         
                     <!-- Subscribe -->
-                    <div class="bg10 p-rl-35 p-t-28 p-b-35 m-b-55">
+                    {{-- <div class="bg10 p-rl-35 p-t-28 p-b-35 m-b-55">
                         <h5 class="f1-m-5 cl0 p-b-10">
                             Subscribe
                         </h5>
@@ -727,7 +765,7 @@
                                 <i class="fa fa-arrow-right"></i>
                             </button>
                         </form>
-                    </div>
+                    </div> --}}
                     
                     <!-- Tag -->
                     <div class="p-b-55">

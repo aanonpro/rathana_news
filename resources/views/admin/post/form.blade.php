@@ -81,8 +81,8 @@
                             <div class="form-group">
                                 <label>Status <span class="text-danger">*</span></label>
                                 <select class="form-control" name="status">
-                                    <option  disabled selected>Select status</option>
-                                    <option value="1" @if(isset($post)) {{ $post->status == 1 ? 'selected' : '' }} @endif >Active</option>
+                                    {{-- <option  disabled selected>Select status</option> --}}
+                                    <option value="1" selected @if(isset($post)) {{ $post->status == 1 ? 'selected' : '' }} @endif >Active</option>
                                     <option value="0" @if(isset($post))  {{ $post->status == 0 ? 'selected' : '' }} @endif>Inactive</option>
                                 </select>
                             </div>  

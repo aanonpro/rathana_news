@@ -28,8 +28,8 @@ return new class extends Migration
             $table->integer('views')->default(0);
             $table->string('status',1)->default(1);
             $table->string('trash',1)->default(0);
-            $table->integer('created_by');
-            $table->integer('updated_by')->default(0);
+            $table->foreignUuid('created_by') ->constrained();
+            $table->foreignUuid('updated_by')->default(0);
             $table->timestamps();
         });
     }

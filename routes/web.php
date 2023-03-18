@@ -23,7 +23,7 @@ use App\Http\Controllers\Admin\CategoryController;
 Auth::routes();
 
 //frontend routes
-Route::get('/', [App\Http\Controllers\FrontendController::class, 'index']);
+Route::get('/', [App\Http\Controllers\FrontendController::class, 'index'])->name('frontend.index');
 Route::get('topic/{category_slug}',[App\Http\Controllers\FrontendController::class, 'categoryPage']);
 Route::get('topic/{category_slug}/{post_slug}',[App\Http\Controllers\FrontendController::class, 'viewPost']);
 

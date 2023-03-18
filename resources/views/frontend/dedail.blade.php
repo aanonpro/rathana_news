@@ -235,6 +235,7 @@
                         </div>
                         <ul class="p-t-32">
                             @foreach ($lastest_posts->take(3) as $item)
+                            @if ($item->category->status == 1)                                
                             <li class="flex-wr-sb-s p-b-30">
                                 <a href="{{url('topic/'.$item->category->slug.'/'.$item->slug)}}" class="size-w-10 wrap-pic-w hov1 trans-03">
                                     <img src="{{url('uploads/post/'.$item->image)}}" alt="IMG">
@@ -262,6 +263,8 @@
                                     </span>
                                 </div>
                             </li>
+                            @endif
+
                             @endforeach                           
                         </ul>
                     </div>
@@ -276,6 +279,8 @@
 
                         <ul class="p-t-35">
                             @foreach ($post_popular->take(3) as $item)
+                            @if ($item->category->status == 1)                                
+
                             <li class="flex-wr-sb-s p-b-30">
                                 <a href="{{url('topic/'.$item->category->slug.'/'.$item->slug)}}" class="size-w-10 wrap-pic-w hov1 trans-03">
                                     <img src="{{url('uploads/post/'.$item->image)}}" alt="IMG">
@@ -303,6 +308,8 @@
                                     </span>
                                 </div>
                             </li>
+                            @endif
+
                             @endforeach      
 
                           

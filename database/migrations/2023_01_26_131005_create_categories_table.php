@@ -15,15 +15,15 @@ return new class extends Migration
     {
         Schema::create('categories', function (Blueprint $table) {
             $table->id();
+            // $table->uuid('uuid')->unique()->default(0);
             $table->string('name')->nullable();
             $table->string('slug')->nullable();
             $table->string('description')->nullable();
             $table->string('image')->nullable();
-            // $table->integer('order')->index()->default(0)->unique();
             $table->string('status',1);
             $table->string('trash',1)->default(0);
-            $table->integer('created_by');
-            $table->integer('updated_by')->default(0);
+            $table->foreignUuid('created_by') ->constrained();
+            $table->foreignUuid('updated_by')->default(0);
 
             $table->timestamps();
         });
